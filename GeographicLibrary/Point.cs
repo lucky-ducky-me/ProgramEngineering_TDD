@@ -43,7 +43,6 @@ namespace GeographicLibrary
 
             this.Latitude = latitude;
             this.Longitude = longitude;
-
         }
     }
 }
