@@ -30,7 +30,7 @@ namespace GeographicLibrary
             if (IsEqual(p1.Latitude, p2.Latitude)
                 && IsEqual(p2.Longitude, p1.Longitude))
             {
-	            return new GeoInfo(AzimutStatus.None, -1);
+	            return new GeoInfo(AzimutStatus.None, -1, -1);
             }
 
             var polarDegree = 90 * ConvToRadiansCoef;
@@ -39,18 +39,10 @@ namespace GeographicLibrary
                 IsEqual(Math.Abs(p1.Latitude), polarDegree)
                 && IsEqual(Math.Abs(p2.Latitude), polarDegree))
             {
-				return new GeoInfo(AzimutStatus.None, -1);
-			}
+				return new GeoInfo(AzimutStatus.None, -1, -1);
+			} 
 
-            if (!IsEqual(Math.Abs(p1.Longitude), Math.Abs(p2.Longitude)) && (
-                 IsEqual(Math.Abs(p1.Latitude), polarDegree)
-                || IsEqual(Math.Abs(p2.Latitude), polarDegree)
-                ))
-            {
-				return new GeoInfo(AzimutStatus.Defined, 180);
-			}
-
-	        var cl1 = Math.Cos(this.p1.Latitude);
+			var cl1 = Math.Cos(this.p1.Latitude);
             var cl2 = Math.Cos(this.p2.Latitude);
             var sl1 = Math.Sin(this.p1.Latitude);
             var sl2 = Math.Sin(this.p2.Latitude);
@@ -87,7 +79,23 @@ namespace GeographicLibrary
             var anglerad = z2 - 2 * Math.PI * Math.Floor(z2 / (2 * Math.PI));
             var angledeg = anglerad * (1 / ConvToRadiansCoef);
 
-            var geoInfo = new GeoInfo(AzimutStatus.Defined, angledeg);
+			if (!IsEqual(Math.Abs(p1.Latitude), Math.Abs(p2.Latitude)) && (
+				 IsEqual(Math.Abs(p1.Latitude), polarDegree)
+				|| IsEqual(Math.Abs(p2.Latitude), polarDegree)
+				))
+			{
+				return new GeoInfo(AzimutStatus.Defined, 180, (int)Math.Round(dist));
+			}
+
+			if (!IsEqual(p1.Longitude, p2.Longitude) && (
+				 IsEqual(Math.Abs(p1.Latitude), polarDegree)
+				&& IsEqual(Math.Abs(p2.Latitude), polarDegree)
+				))
+			{
+				return new GeoInfo(AzimutStatus.Any, -1, (int)Math.Round(dist));
+			}
+
+			var geoInfo = new GeoInfo(AzimutStatus.Defined, angledeg, (int) Math.Round(dist));
 
             return geoInfo;
         }

@@ -6,10 +6,13 @@
 
 		public double AzimutValue { get; private set; }
 
-		public GeoInfo(AzimutStatus azimutStatus, double azimutValue)
+		public int Distance { get; private set; }
+
+		public GeoInfo(AzimutStatus azimutStatus, double azimutValue, int distance)
 		{
 			AzimutStatus = azimutStatus;
 			AzimutValue = azimutValue;
+			Distance = distance;
 		}
 	}
 }
