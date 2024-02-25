@@ -31,6 +31,8 @@ namespace GeographicLibraryTest
 	        yield return new object[] { new Point(77.1539, 120.398), new Point(77.1804, 129.55), 84.7925159033 };
 	        yield return new object[] { new Point(77.1539, -120.398), new Point(77.1804, 129.55), 324.384112704 };
 	        yield return new object[] { new Point(90, 0), new Point(-90, 0), 180.0 };
+			yield return new object[] { new Point(0, 90), new Point(10, 90), 0.0 };
+			yield return new object[] { new Point(10, 90), new Point(0, 90), 180.0 };
 		}
 
 
