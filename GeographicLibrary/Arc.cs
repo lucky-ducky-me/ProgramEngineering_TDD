@@ -33,6 +33,15 @@ namespace GeographicLibrary
 	            return new GeoInfo(AzimutStatus.None, -1);
             }
 
+            var polarDegree = 90 * ConvToRadiansCoef;
+
+            if (IsEqual(p1.Latitude, p2.Latitude) &&
+                IsEqual(Math.Abs(p1.Latitude), polarDegree)
+                && IsEqual(Math.Abs(p2.Latitude), polarDegree))
+            {
+				return new GeoInfo(AzimutStatus.None, -1);
+			}
+
 	        var cl1 = Math.Cos(this.p1.Latitude);
             var cl2 = Math.Cos(this.p2.Latitude);
             var sl1 = Math.Sin(this.p1.Latitude);

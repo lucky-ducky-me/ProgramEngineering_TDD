@@ -58,5 +58,20 @@ namespace GeographicLibraryTest
 	        GeoInfo az = arc.GetAzimut();
 	        Assert.IsTrue(az.AzimutStatus == AzimutStatus.None);
         }
-    }
+
+		public static IEnumerable<object[]> GetPointsTwoOnPolar()
+		{
+			yield return new object[] { new Point(90, 90), new Point(90, 180)};
+			yield return new object[] { new Point(-90, 0), new Point(-90, 10) };
+		}
+
+		[TestMethod]
+		[DynamicData(nameof(GetPointsTwoOnPolar), DynamicDataSourceType.Method)]
+		public void Test_PointsTwoOnPolar_AzimutNone(Point a, Point b)
+		{
+			Arc arc = new Arc(a, b);
+			GeoInfo az = arc.GetAzimut();
+			Assert.IsTrue(az.AzimutStatus == AzimutStatus.None);
+		}
+	}
 }
