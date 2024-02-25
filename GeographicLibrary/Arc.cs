@@ -42,6 +42,14 @@ namespace GeographicLibrary
 				return new GeoInfo(AzimutStatus.None, -1);
 			}
 
+            if (!IsEqual(p1.Longitude, p2.Longitude) && (
+                 IsEqual(Math.Abs(p1.Latitude), polarDegree)
+                || IsEqual(Math.Abs(p2.Latitude), polarDegree)
+                ))
+            {
+				return new GeoInfo(AzimutStatus.Defined, 180);
+			}
+
 	        var cl1 = Math.Cos(this.p1.Latitude);
             var cl2 = Math.Cos(this.p2.Latitude);
             var sl1 = Math.Sin(this.p1.Latitude);

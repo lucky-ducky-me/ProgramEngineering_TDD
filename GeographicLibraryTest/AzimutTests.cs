@@ -73,5 +73,23 @@ namespace GeographicLibraryTest
 			GeoInfo az = arc.GetAzimut();
 			Assert.IsTrue(az.AzimutStatus == AzimutStatus.None);
 		}
+
+		public static IEnumerable<object[]> GetPointsOneOnPolar()
+		{
+			yield return new object[] { new Point(90, 90), new Point(70, 180) };
+			yield return new object[] { new Point(-90, 0), new Point(-70, 10) };
+			yield return new object[] { new Point(70, 180), new Point(90, 90) };
+			yield return new object[] { new Point(-70, 10), new Point(-90, 0) };
+		}
+
+		[TestMethod]
+		[DynamicData(nameof(GetPointsOneOnPolar), DynamicDataSourceType.Method)]
+		public void Test_PointsOneOnPolar_AzimutNone(Point a, Point b)
+		{
+			var ans = 180;
+			Arc arc = new Arc(a, b);
+			GeoInfo az = arc.GetAzimut();
+			Assert.IsTrue(Math.Abs(ans - az.AzimutValue) < Epsilon);
+		}
 	}
 }
