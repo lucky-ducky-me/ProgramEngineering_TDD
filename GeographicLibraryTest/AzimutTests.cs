@@ -124,5 +124,21 @@ namespace GeographicLibraryTest
 			GeoInfo az = arc.GetAzimut();
 			Assert.IsTrue(Math.Abs(dist - az.Distance) < Epsilon);
 		}
+
+		public static IEnumerable<object[]> GetPointsOnEquator()
+		{
+			yield return new object[] { new Point(0, 0), new Point(0, 30), 90 };
+			yield return new object[] { new Point(0, 0), new Point(0, -30), 270.0 };
+		}
+
+
+		[TestMethod]
+		[DynamicData(nameof(GetPointsOnEquator), DynamicDataSourceType.Method)]
+		public void Test_PointsOnEquator_AzimutCalculated(Point a, Point b, double ans)
+		{
+			Arc arc = new Arc(a, b);
+			GeoInfo az = arc.GetAzimut();
+			Assert.IsTrue(Math.Abs(ans - az.AzimutValue) < Epsilon);
+		}
 	}
 }
