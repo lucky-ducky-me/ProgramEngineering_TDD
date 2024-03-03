@@ -140,5 +140,21 @@ namespace GeographicLibraryTest
 			GeoInfo az = arc.GetAzimut();
 			Assert.IsTrue(Math.Abs(ans - az.AzimutValue) < Epsilon);
 		}
+
+		public static IEnumerable<object[]> GetPointsThroughEarthCore()
+		{
+			yield return new object[] { new Point(30, 20), new Point(-30, -160)};
+			yield return new object[] { new Point(0, 0), new Point(0, 180)};
+		}
+
+
+		[TestMethod]
+		[DynamicData(nameof(GetPointsThroughEarthCore), DynamicDataSourceType.Method)]
+		public void Test_GetPointsThroughEarthCore_AzimutCalculated(Point a, Point b)
+		{
+			Arc arc = new Arc(a, b);
+			GeoInfo az = arc.GetAzimut();
+			Assert.IsTrue(az.AzimutStatus == AzimutStatus.Any);
+		}
 	}
 }
